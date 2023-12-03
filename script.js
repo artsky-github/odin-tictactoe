@@ -8,10 +8,15 @@ const Gameboard = (function () {
   };
   const updateBoard = (x, y, playerValue) => {
     // Makes sure that player can't input below 0 or higher than 2 for index of 2D array
-    if (x > gameboard.length - 1 || x < 0 || y > gameboard.length - 1 || y < 0)
-      return false;
     // Make sure that player is not overwriting another players value. Can only overwrite null.
-    // Code here..................
+    if (
+      x > gameboard.length - 1 ||
+      x < 0 ||
+      y > gameboard.length - 1 ||
+      y < 0 ||
+      gameboard[x][y] !== null
+    )
+      return false;
 
     gameboard[x][y] = playerValue;
     return true;
@@ -29,7 +34,6 @@ const Gameboard = (function () {
       )
         return true;
     }
-
     // Verifies all array columns (creates separate column array to check from)
     for (let col = 0; col <= 2; col++) {
       let gameboardColumn = Gameboard.getBoard().map((nestedArray) => {
@@ -42,9 +46,20 @@ const Gameboard = (function () {
       )
         return true;
     }
-
     // Verifies whether the diagonals are all the player's values.
-    // Diagonal code.................
+    for (let diag = 0; diag <= 1; diag++) {
+      let gameboardOrientation =
+        diag === 1 ? Gameboard.getBoard().toReversed() : Gameboard.getBoard();
+      let gameboardDiagonal = gameboardOrientation.map((nestedArray, index) => {
+        return nestedArray[index];
+      });
+      if (
+        gameboardDiagonal.every((diagValue) => {
+          return diagValue === playerValue;
+        })
+      )
+        return true;
+    }
   };
   return { resetBoard, getBoard, updateBoard, checkForWinner };
 })();
@@ -74,6 +89,7 @@ Player.prototype.getValue = function () {
   return this.value;
 };
 
+// Main function that ties in Player objects with the Gameboard module, turns are done using modulos.
 function TicTacToeGame() {
   let currentPlayer;
   let validUpdate;
@@ -89,7 +105,7 @@ function TicTacToeGame() {
     while (!validUpdate) {
       let gridRow = prompt(`What row ${players[currentPlayer].getName()}?`);
       let gridCol = prompt(`What column ${players[currentPlayer].getName()}?`);
-      validGrid = Gameboard.updateBoard(
+      validUpdate = Gameboard.updateBoard(
         gridRow,
         gridCol,
         players[currentPlayer].getValue()
