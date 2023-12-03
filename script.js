@@ -93,12 +93,12 @@ Player.prototype.getValue = function () {
 function TicTacToeGame() {
   let currentPlayer;
   let validUpdate;
-  let gameFinished = false;
+  let foundWinner = false;
   let turn = 0;
 
   const players = createTwoPlayers();
 
-  while (!gameFinished) {
+  while (!foundWinner && turn !== 9) {
     currentPlayer = turn % 2;
     validUpdate = false;
 
@@ -113,8 +113,15 @@ function TicTacToeGame() {
     }
 
     console.log(Gameboard.getBoard());
-    gameFinished = Gameboard.checkForWinner(players[currentPlayer].getValue());
+    console.log(turn);
+    foundWinner = Gameboard.checkForWinner(players[currentPlayer].getValue());
     turn++;
+  }
+  // Temp winning conditions
+  if (foundWinner) {
+    console.log(`The winner is: ${players[currentPlayer].getName()}`);
+  } else {
+    console.log("Nobody wins! It's a tie!");
   }
 }
 
