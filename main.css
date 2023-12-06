@@ -1,1 +1,59 @@
 @import "node_modules/normalize.css/normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=Kanit&display=swap");
+
+:root {
+  --system-font: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
+    sans-serif;
+  --main-font: "Kanit", sans-serif;
+  font-family: var(--main-font, --system-font);
+  height: 100vh;
+}
+
+body {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+h1 {
+  font-size: 36pt;
+  margin: 0;
+}
+
+hr {
+  height: calc(100% - 20px);
+}
+
+#score-container {
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
+}
+
+#score-container > div {
+  display: flex;
+  background-color: lightgray;
+  align-items: center;
+  height: 50px;
+  width: 100px;
+  padding: 5px;
+  padding-inline: 20px;
+  border-radius: 10px;
+}
+
+#grid-container {
+  width: 400px;
+  height: 400px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  background-color: black;
+  gap: 5px;
+}
+
+#grid-container > div {
+  background-color: white;
+}
